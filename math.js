@@ -3,7 +3,7 @@
 const BUFFER = 0.05;
 
 // direction is camera.getWorldDirection of shooter.
-module.exports = function isHit(shooter, target, direction) {
+function isHit(shooter, target, direction) {
   // targetX - shooterX
   const deltaX = target.position.x - shooter.position.x;
   // shooterZ - targetZ
@@ -28,3 +28,5 @@ module.exports = function isHit(shooter, target, direction) {
   // test if destination is close enough to target.
   return buffer.x < BUFFER && buffer.z < BUFFER;
 };
+
+module.exports = { isHit }
