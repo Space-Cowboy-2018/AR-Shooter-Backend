@@ -1,6 +1,6 @@
 // checks if shooter can hit target.
 // shooter and target are position from camera.getWorldPosition.
-const BUFFER = 0.05;
+const BUFFER = 0.25;
 
 // direction is camera.getWorldDirection of shooter.
 function isHit(shooter, target, direction) {
