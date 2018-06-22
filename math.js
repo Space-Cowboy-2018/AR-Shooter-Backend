@@ -1,11 +1,17 @@
 // checks if shooter can hit target.
 // shooter and target are position from camera.getWorldPosition.
 const BUFFER = 0.25;
+const BUFFER_VERTICAL = 0.5;
 
 // direction is camera.getWorldDirection of shooter.
 function isHit(shooter, target, direction) {
+  target.x = 1;
+  target.y = 0;
+  target.z = -1;
   // targetX - shooterX
   const deltaX = target.x - shooter.x;
+  // targetY - shooterY
+  const deltaY = target.y - shooter.y;
   // shooterZ - targetZ
   const deltaZ = shooter.z - target.z;
   // angle.
@@ -19,17 +25,33 @@ function isHit(shooter, target, direction) {
   const vectorX = vector * Math.sin(theta);
   const vectorZ =
     direction.z < 0 ? -Math.cos(theta) * vector : Math.cos(theta) * vector;
+
+  // taking y axis into account.
+  const phi =
+    direction < 0
+      ? -Math.atan(direction.y / direction.z)
+      : Math.atan(direction.y / direction.z);
+
+  const phiVector = Math.sqrt(Math.pow(deltaY, 2) + Math.pow(vector, 2));
+  // console.log('HMMM', phiVector * Math.cos(phi));
+  // console.log('HMMM', vector);
+  const vectorY = phiVector * Math.sin(phi);
+
   // destination.
   const destination = {
     x: shooter.x + vectorX,
+    y: shooter.y + vectorY,
     z: shooter.z + vectorZ
   };
   const buffer = {
     x: Math.abs(target.x - destination.x),
+    y: Math.abs(target.y - destination.y),
     z: Math.abs(destination.z - target.z)
   };
   // test if destination is close enough to target.
-  return buffer.x < BUFFER && buffer.z < BUFFER;
+  console.log('DESTINATION: ', destination);
+  console.log('TARGET: ', target);
+  return buffer.x < BUFFER && buffer.y < BUFFER_VERTICAL && buffer.z < BUFFER;
 }
 
 module.exports = { isHit };
