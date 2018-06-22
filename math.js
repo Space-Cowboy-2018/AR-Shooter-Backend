@@ -5,9 +5,6 @@ const BUFFER_VERTICAL = 0.5;
 
 // direction is camera.getWorldDirection of shooter.
 function isHit(shooter, target, direction) {
-  target.x = 1;
-  target.y = 0;
-  target.z = -1;
   // targetX - shooterX
   const deltaX = target.x - shooter.x;
   // targetY - shooterY
