@@ -30,8 +30,6 @@ function isHit(shooter, target, direction) {
       : Math.atan(direction.y / direction.z);
 
   const phiVector = Math.sqrt(Math.pow(deltaY, 2) + Math.pow(vector, 2));
-  // console.log('HMMM', phiVector * Math.cos(phi));
-  // console.log('HMMM', vector);
   const vectorY = phiVector * Math.sin(phi);
 
   // destination.
@@ -46,8 +44,6 @@ function isHit(shooter, target, direction) {
     z: Math.abs(destination.z - target.z)
   };
   // test if destination is close enough to target.
-  console.log('DESTINATION: ', destination);
-  console.log('TARGET: ', target);
   return buffer.x < BUFFER && buffer.y < BUFFER_VERTICAL && buffer.z < BUFFER;
 }
 
