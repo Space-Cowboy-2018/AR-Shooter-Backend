@@ -19,9 +19,8 @@ app.get("/rooms", (req, res, next) => {
   res.json(rooms);
 });
 
-const server = http.Server(app);
-server.listen(PORT);
-server.on("request", app);
+const server = app.listen(PORT);
+// server.on("request", app);
 const io = socketio(server);
 
 io.on("connection", socket => {
