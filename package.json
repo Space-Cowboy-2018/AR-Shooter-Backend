@@ -1,5 +1,8 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "private": true,
   "dependencies": {
     "@feathersjs/express": "^1.2.3",
