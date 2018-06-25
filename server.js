@@ -30,7 +30,7 @@ io.on("connection", socket => {
     console.log("this is our room name>>>>>", name);
     socket.join(name);
     rooms[name] = 1;
-    socket.emit("createdRoom", rooms);
+    socket.broadcast.emit("createdRoom", rooms);
     console.log("createdRoom!!!");
   });
   socket.on("joinRoom", name => {
