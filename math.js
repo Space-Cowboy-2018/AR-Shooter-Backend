@@ -25,7 +25,7 @@ function isHit(shooter, target, direction) {
 
   // taking y axis into account.
   const phi =
-    direction < 0
+    direction.z < 0
       ? -Math.atan(direction.y / direction.z)
       : Math.atan(direction.y / direction.z);
 
