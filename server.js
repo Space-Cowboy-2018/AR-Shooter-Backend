@@ -1,6 +1,5 @@
 const express = require("express");
 const socketio = require("socket.io");
-const http = require("http");
 const app = express();
 const PORT = process.env.PORT || 3030;
 const { isHit } = require("./math.js");
