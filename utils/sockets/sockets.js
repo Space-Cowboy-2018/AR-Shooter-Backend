@@ -49,7 +49,7 @@ module.exports = io => {
     });
 
     socket.on(UPDATE_PLAYER_MOVEMENT, UpdatedPlayer => {
-      console.log(UpdatedPlayer);
+      console.log(UpdatedPlayer); //TODO: REMOVE WHEN STORE IS CREATED
     });
 
     // DISCONNECT
