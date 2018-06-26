@@ -43,7 +43,7 @@ io.on("connection", socket => {
     console.log("rooms", ourRoom);
     shooterPosition = position;
     shooterAim = aim;
-    socket.to(ourRoom).emit("shot", position);
+    socket.to(ourRoom).emit('shot', {position, aim});
   });
   socket.on("gothit?", targetPlayer => {
     console.log(socket.rooms);
@@ -58,3 +58,5 @@ io.on("connection", socket => {
     socket.removeAllListeners("disconnect");
   });
 });
+position
+;
