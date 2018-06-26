@@ -1,9 +1,5 @@
-const socketio = require('socket.io');
 const { isHit } = require('../math.js');
 let shooterPosition, shooterAim;
-const server = require('../../server');
-
-// server.on("request", app);
 
 module.exports = io => {
   io.on('connection', socket => {
