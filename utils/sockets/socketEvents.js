@@ -1,0 +1,12 @@
+const CREATE_ROOM = 'CREATE_ROOM';
+const JOIN_ROOM = 'JOIN_ROOM';
+const START_GAME = 'START_GAME';
+const SHOOT = 'SHOOT';
+const IS_HIT = 'IS_HIT';
+
+//EMITS
+const GAME_STARTED = 'GAME_STARTED';
+const SHOT = 'SHOT';
+
+
+module.exports = { CREATE_ROOM, JOIN_ROOM, START_GAME, SHOOT, IS_HIT, SHOT, GAME_STARTED };
