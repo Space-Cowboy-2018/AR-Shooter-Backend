@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const socketio = require('socket.io');
+
 const PORT = process.env.PORT || 3030;
 let rooms = {
   cow: 1,
@@ -14,6 +16,8 @@ app.get('/rooms', (req, res, next) => {
   res.json(rooms);
 });
 
-app.listen(PORT);
+const server = app.listen(PORT);
+const io = socketio(server);
+require('./utils/sockets/sockets')(io);
 
 module.exports = app;
