@@ -4,7 +4,7 @@ const reducer = (state = {}, action) => {
   const stateCopy = { ...state };
   switch (action.type) {
     case ADD_ROOM:
-      stateCopy[action.roomName] = [action.initialPlayer];
+      stateCopy[action.roomName] = 1;
       return stateCopy;
     default:
       return state;

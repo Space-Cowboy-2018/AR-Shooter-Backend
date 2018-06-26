@@ -1,5 +1,4 @@
-const { createStore, applyMiddleware } = require('redux');
-const loggingMiddleware = require('redux-logger');
+const { createStore } = require('redux');
 const reducer = require('./reducer');
 
-module.exports = createStore(reducer, applyMiddleware(loggingMiddleware));
+module.exports = createStore(reducer);
