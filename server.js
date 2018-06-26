@@ -58,5 +58,3 @@ io.on("connection", socket => {
     socket.removeAllListeners("disconnect");
   });
 });
-position
-;
