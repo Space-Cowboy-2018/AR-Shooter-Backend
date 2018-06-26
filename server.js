@@ -25,19 +25,19 @@ const io = socketio(server);
 io.on("connection", socket => {
   let ourRoom = "";
   console.log("A new client has connected!", socket.id);
-  socket.on("createRoom", name => {
-    ourRoom = name;
-    console.log("this is our room name>>>>>", name);
-    socket.join(name);
-    rooms[name] = 1;
+  socket.on("createRoom", ({roomName, name}) => {
+    ourRoom = roomName;
+    console.log("this is our room name>>>>>", roomName);
+    socket.join(roomName);
+    rooms[roomName] = [name];
     socket.broadcast.emit("createdRoom", rooms);
     console.log("createdRoom!!!");
   });
-  socket.on("joinRoom", name => {
-    ourRoom = name;
-    socket.join(name);
-    console.log("this is our room name on join>>>>", name);
-    rooms[name]++;
+  socket.on("joinRoom", ({roomName, name}) => {
+    ourRoom = roomName;
+    socket.join(roomName);
+    console.log("this is our room name on join>>>>", roomName);
+    rooms[roomName].push(name);
   });
   socket.on("position", ({ position, aim }) => {
     console.log("rooms", ourRoom);
