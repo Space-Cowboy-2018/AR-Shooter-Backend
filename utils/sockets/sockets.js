@@ -7,7 +7,8 @@ const {
   SHOOT,
   IS_HIT,
   SHOT,
-  GAME_STARTED
+  GAME_STARTED,
+  UPDATE_PLAYER_MOVEMENT
 } = require('./socketEvents');
 let rooms = {
   cow: 1,
@@ -45,6 +46,10 @@ module.exports = io => {
     socket.on(IS_HIT, targetPlayer => {
       const didWeHit = isHit(shooterPosition, targetPlayer, shooterAim);
       console.log('DID WE HIT?>>>>' + didWeHit); // TODO: REMOVE WHEN WE EMIT THE HIT BACK TO THE PLAYER THAT GOT HIT
+    });
+
+    socket.on(UPDATE_PLAYER_MOVEMENT, UpdatedPlayer => {
+      console.log(UpdatedPlayer);
     });
 
     // DISCONNECT
