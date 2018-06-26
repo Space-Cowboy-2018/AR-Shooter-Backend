@@ -28,16 +28,14 @@ io.on('connection', socket => {
   // ROOM LISTENERS
   socket.on('createRoom', name => {
     ourRoom = name;
-    console.log('this is our room name>>>>>', name);
     socket.join(name);
     rooms[name] = 1;
     socket.broadcast.emit('createdRoom', rooms);
-    console.log('createdRoom!!!');
   });
   socket.on('joinRoom', name => {
     ourRoom = name;
     socket.join(name);
-    console.log('this is our room name on join>>>>', name);
+    console.log('this is our room name on join>>>>', name); // TODO: REMOVE WHEN WE CAN JOIN ROOM ON THE FRONT-END
     rooms[name]++;
   });
 
@@ -48,15 +46,13 @@ io.on('connection', socket => {
 
   // IN-GAME LISTENERS
   socket.on('position', ({ position, aim }) => {
-    console.log('rooms', ourRoom);
     shooterPosition = position;
     shooterAim = aim;
     socket.to(ourRoom).emit('shot', { position, aim });
   });
   socket.on('gothit?', targetPlayer => {
-    console.log(socket.rooms);
     const didWeHit = isHit(shooterPosition, targetPlayer, shooterAim);
-    console.log('DID WE HIT?>>>>' + didWeHit);
+    console.log('DID WE HIT?>>>>' + didWeHit); // TODO: REMOVE WHEN WE EMIT THE HIT BACK TO THE PLAYER THAT GOT HIT
   });
 
   // DISCONNECT
