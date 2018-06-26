@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3030;
 const { isHit } = require("./math.js");
 let shooterPosition, shooterAim;
+// CG: make sure objects use const. Also, note with a TODO: Will remove this default values when X. 
 let rooms = {
   cow: 1,
   chicken: 1,
@@ -22,11 +23,15 @@ const server = app.listen(PORT);
 // server.on("request", app);
 const io = socketio(server);
 
+//CG we should make a Socket Manager Util File. 
 io.on("connection", socket => {
   let ourRoom = "";
   console.log("A new client has connected!", socket.id);
+  // room:join 
+  // const ROOM_CREATE = 'ROOM:CREATE'; 
   socket.on("createRoom", name => {
     ourRoom = name;
+    //CG: make sure to remove console.logs upon verification of things working or note that you will remove them. 
     console.log("this is our room name>>>>>", name);
     socket.join(name);
     rooms[name] = 1;
