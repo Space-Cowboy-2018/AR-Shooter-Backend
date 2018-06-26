@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
 const socketio = require('socket.io');
-
+let rooms = {
+  cow: 1,
+  chicken: 1,
+  moose: 1
+};
 const PORT = process.env.PORT || 3030;
 
 // Parse HTTP JSON bodies
