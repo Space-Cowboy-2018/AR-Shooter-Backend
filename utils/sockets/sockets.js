@@ -30,7 +30,7 @@ module.exports = io => {
       ourRoom = name;
       socket.join(name);
       console.log('this is our room name on join>>>>', name); // TODO: REMOVE WHEN WE CAN JOIN ROOM ON THE FRONT-END
-      rooms[name]++;
+      rooms[name]++; // TODO: ADD PLAYER TO LIST OF PLAYERS IN ROOM
     });
 
     // START GAME LISTENER
