@@ -3,11 +3,7 @@ const app = express();
 const socketio = require('socket.io');
 
 const PORT = process.env.PORT || 3030;
-let rooms = {
-  cow: 1,
-  chicken: 1,
-  moose: 1
-};
+
 // Parse HTTP JSON bodies
 app.use(express.json());
 // Parse URL-encoded params

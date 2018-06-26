@@ -1,6 +1,10 @@
 const { isHit } = require('../math.js');
 let shooterPosition, shooterAim;
-
+let rooms = {
+  cow: 1,
+  chicken: 1,
+  moose: 1
+};
 module.exports = io => {
   io.on('connection', socket => {
     let ourRoom = '';
