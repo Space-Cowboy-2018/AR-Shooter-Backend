@@ -1,5 +1,5 @@
 const store = require('../../store/store');
-const {addRoom} = require('../../store/actions')
+const {addRoom, updatePlayer} = require('../../store/actions')
 const { isHit } = require('../math.js');
 let shooterPosition, shooterAim;
 const {
@@ -49,8 +49,13 @@ module.exports = io => {
       console.log('DID WE HIT?>>>>' + didWeHit); // TODO: REMOVE WHEN WE EMIT THE HIT BACK TO THE PLAYER THAT GOT HIT
     });
 
-    socket.on(UPDATE_PLAYER_MOVEMENT, UpdatedPlayer => {
-      console.log(UpdatedPlayer); //TODO: REMOVE WHEN STORE IS CREATED
+    socket.on(UPDATE_PLAYER_MOVEMENT, ({position, aim}) => {
+      const player = {
+        id: socket.id,
+        position,
+        aim
+      }
+      store.dispatch(updatePlayer(ourRoom, player));
     });
 
     // DISCONNECT
