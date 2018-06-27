@@ -2,6 +2,8 @@
 const ADD_ROOM = 'ADD_ROOM';
 const ADD_PLAYER_TO_ROOM = 'ADD_PLAYER_TO_ROOM';
 
+const UPDATE_PLAYER = 'UPDATE_PLAYER';
+
 // ACTION CREATORS
 const addRoom = (roomName, initialPlayer) => ({
   type: ADD_ROOM,
@@ -14,4 +16,11 @@ const addPlayerToRoom = (roomName, player) => ({
   roomName,
   player
 });
-module.exports = { ADD_ROOM, addRoom, ADD_PLAYER_TO_ROOM, addPlayerToRoom };
+
+const updatePlayer = (roomName, player) => ({
+  type: UPDATE_PLAYER,
+  roomName,
+  player
+});
+
+module.exports = { ADD_ROOM, addRoom, ADD_PLAYER_TO_ROOM, addPlayerToRoom, UPDATE_PLAYER, updatePlayer };
