@@ -42,8 +42,17 @@ module.exports = io => {
     socket.on(SHOOT, ({ position, aim }) => {
       shooterPosition = position;
       shooterAim = aim;
-      socket.to(ourRoom).emit(SHOT, { position, aim });
+
+      const players = rooms[ourRoom];
+
+      for (let i = 0; i < players.length; i++) {
+        if (players[i].id === socket.id) continue;
+        if (isHit(shooterPosition, players[i].position, shooterAim)) {
+          // emit hit.
+        }
+      }
     });
+
     socket.on(IS_HIT, targetPlayer => {
       const didWeHit = isHit(shooterPosition, targetPlayer, shooterAim);
       console.log('DID WE HIT?>>>>' + didWeHit); // TODO: REMOVE WHEN WE EMIT THE HIT BACK TO THE PLAYER THAT GOT HIT
