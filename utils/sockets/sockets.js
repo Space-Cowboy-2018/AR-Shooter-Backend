@@ -1,5 +1,9 @@
 const store = require('../../store/store');
-const {addRoom, updatePlayer} = require('../../store/actions')
+const {
+  addRoom,
+  updatePlayer,
+  addPlayerToRoom
+} = require('../../store/actions');
 const { isHit } = require('../math.js');
 let shooterPosition, shooterAim;
 const {
@@ -10,12 +14,13 @@ const {
   IS_HIT,
   SHOT,
   GAME_STARTED,
-  UPDATE_PLAYER_MOVEMENT
+  UPDATE_PLAYER_MOVEMENT,
+  NEW_ROOM
 } = require('./socketEvents');
 let rooms = store.getState();
 const unsubscribe = store.subscribe(() => {
   rooms = store.getState();
-})
+});
 module.exports = io => {
   io.on('connection', socket => {
     let ourRoom = '';
@@ -24,13 +29,16 @@ module.exports = io => {
     socket.on(CREATE_ROOM, name => {
       ourRoom = name;
       socket.join(name);
-      store.dispatch(addRoom(name, {id: socket.id}))
+      store.dispatch(addRoom(name));
+      store.dispatch(addPlayerToRoom(name, socket.id));
+      console.log('ABOUT TO EMIT');
+      io.emit(NEW_ROOM, rooms);
     });
     socket.on(JOIN_ROOM, name => {
       ourRoom = name;
       socket.join(name);
       console.log('this is our room name on join>>>>', name); // TODO: REMOVE WHEN WE CAN JOIN ROOM ON THE FRONT-END
-      rooms[name]++; // TODO: ADD PLAYER TO LIST OF PLAYERS IN ROOM
+      store.dispatch(addPlayerToRoom(name, socket.id));
     });
 
     // START GAME LISTENER
@@ -49,12 +57,12 @@ module.exports = io => {
       console.log('DID WE HIT?>>>>' + didWeHit); // TODO: REMOVE WHEN WE EMIT THE HIT BACK TO THE PLAYER THAT GOT HIT
     });
 
-    socket.on(UPDATE_PLAYER_MOVEMENT, ({position, aim}) => {
+    socket.on(UPDATE_PLAYER_MOVEMENT, ({ position, aim }) => {
       const player = {
         id: socket.id,
         position,
         aim
-      }
+      };
       store.dispatch(updatePlayer(ourRoom, player));
     });
 
