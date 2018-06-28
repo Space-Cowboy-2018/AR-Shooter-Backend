@@ -50,6 +50,17 @@ describe('isHit function', () => {
 
       expect(isHit(shooter, target, aim)).to.equal(true);
     });
+
+    it('can hit target at arbitrary angle', () => {
+      const shooter = { x: 5, y: 0, z: -5 };
+      const target = { x: 8, y: 0, z: -1};
+      const aim = {
+        x: 3,
+        y: 0,
+        z: 4
+      }
+      expect(isHit(shooter, target, aim)).to.equal(true);
+    });
   });
 
   describe('shooter is not at origin', () => {
