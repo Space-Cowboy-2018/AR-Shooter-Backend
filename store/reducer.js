@@ -1,4 +1,9 @@
-const { ADD_ROOM, ADD_PLAYER_TO_ROOM, UPDATE_PLAYER } = require('./actions');
+const {
+  ADD_ROOM,
+  ADD_PLAYER_TO_ROOM,
+  UPDATE_PLAYER,
+  DELETE_PLAYER_FROM_ROOM
+} = require('./actions');
 
 const reducer = (state = {}, action) => {
   const stateCopy = { ...state };
@@ -12,6 +17,11 @@ const reducer = (state = {}, action) => {
         ...stateCopy[action.roomName],
         action.player
       ];
+      return stateCopy;
+    case DELETE_PLAYER_FROM_ROOM:
+      stateCopy[action.roomName] = stateCopy[action.roomName].filter(
+        players => players !== action.player
+      );
       return stateCopy;
     case UPDATE_PLAYER:
       playersArr = stateCopy[action.roomName].slice();
