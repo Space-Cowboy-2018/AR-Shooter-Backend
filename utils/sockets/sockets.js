@@ -12,7 +12,6 @@ const {
   JOIN_ROOM,
   START_GAME,
   SHOOT,
-  IS_HIT,
   SHOT,
   GAME_STARTED,
   UPDATE_PLAYER_MOVEMENT,
@@ -61,10 +60,11 @@ module.exports = io => {
       const players = rooms[ourRoom];
       for (let i = 0; i < players.length; i++) {
         if (players[i].id === socket.id) continue;
-        console.log('player', players[i]);
         if (isHit(shooterPosition, players[i].position, shooterAim)) {
           // emit hit.
-          console.log('hit', socket.id);
+          // store.dispatch(updatePlayer, /*fill in*/)
+          // socket.to(players[i].id).emit(SHOT, /*fill in*/)
+          console.log(socket.id, ' hit player: ', players[i].id); // TODO: DELETE WHEN WE EMIT.
         }
       }
     });
