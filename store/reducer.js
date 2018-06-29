@@ -19,9 +19,11 @@ const reducer = (state = {}, action) => {
       ];
       return stateCopy;
     case DELETE_PLAYER_FROM_ROOM:
+      if(stateCopy[action.roomName].length-1 > 0) {
       stateCopy[action.roomName] = stateCopy[action.roomName].filter(
         player => player.id !== action.player.id
-      );
+      )}
+      else delete stateCopy[action.roomName]
       return stateCopy;
     case UPDATE_PLAYER:
       playersArr = stateCopy[action.roomName].slice();
