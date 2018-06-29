@@ -14,8 +14,8 @@ function isHit(shooter, target, direction) {
   // angle.
   const theta =
     direction.z < 0
-      ? -Math.atan(direction.x / direction.z)
-      : Math.atan(direction.x / direction.z);
+      ? -Math.atan2(direction.x, direction.z)
+      : Math.atan2(direction.x, direction.z);
   // pythagorean thm.
   const vector = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
   // x component of vector Vsin(theta)
@@ -26,8 +26,8 @@ function isHit(shooter, target, direction) {
   // taking y axis into account.
   const phi =
     direction.z < 0
-      ? -Math.atan(direction.y / direction.z)
-      : Math.atan(direction.y / direction.z);
+      ? -Math.atan2(direction.y, direction.z)
+      : Math.atan2(direction.y, direction.z);
 
   const phiVector = Math.sqrt(Math.pow(deltaY, 2) + Math.pow(vector, 2));
   const vectorY = phiVector * Math.sin(phi);
@@ -36,12 +36,12 @@ function isHit(shooter, target, direction) {
   const destination = {
     x: shooter.x + vectorX,
     y: shooter.y + vectorY,
-    z: shooter.z + vectorZ
+    z: (target.z - shooter.z) < 0 ? shooter.z - vectorZ : shooter.z + vectorZ
   };
   const buffer = {
     x: Math.abs(target.x - destination.x),
     y: Math.abs(target.y - destination.y),
-    z: Math.abs(destination.z - target.z)
+    z: Math.abs(target.z - destination.z)
   };
   // test if destination is close enough to target.
   return buffer.x < BUFFER && buffer.y < BUFFER_VERTICAL && buffer.z < BUFFER;
