@@ -89,7 +89,7 @@ module.exports = io => {
     socket.on('disconnect', function() {
       console.log('i disconnected~', socket.id);
       socket.leave(ourRoom);
-      store.dispatch(deletePlayerFromRoom(ourRoom, {id: socket.id}));
+      store.dispatch(deletePlayerFromRoom(ourRoom, { id: socket.id }));
       io.emit(UPDATE_ROOMS, rooms);
       socket.removeAllListeners('gothit?');
       socket.removeAllListeners('position');
