@@ -28,7 +28,7 @@ const reducer = (state = {}, action) => {
     case UPDATE_PLAYER:
       playersArr = stateCopy[action.roomName].slice();
       index = playersArr.findIndex(player => player.id === action.player.id);
-      playersArr.splice(index, 1, action.player);
+      playersArr[index] = {...playersArr[index], ...action.player} // ISAIAS WROTE THIS
       stateCopy[action.roomName] = playersArr;
       return stateCopy;
     default:

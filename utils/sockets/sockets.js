@@ -6,7 +6,7 @@ const {
   deletePlayerFromRoom
 } = require('../../store/actions');
 const { isHit } = require('../math.js');
-let shooterPosition, shooterAim;
+const INITIAL_HEALTH = 10;
 const {
   CREATE_ROOM,
   JOIN_ROOM,
@@ -18,10 +18,13 @@ const {
   NEW_ROOM,
   LEAVE_ROOM
 } = require('./socketEvents');
+
 let rooms = store.getState();
+
 const unsubscribe = store.subscribe(() => {
   rooms = store.getState();
 });
+
 module.exports = io => {
   io.on('connection', socket => {
     let ourRoom = '';
@@ -31,19 +34,21 @@ module.exports = io => {
       ourRoom = name;
       socket.join(name);
       store.dispatch(addRoom(name));
-      store.dispatch(addPlayerToRoom(name, {id: socket.id}));
+      store.dispatch(addPlayerToRoom(name, { id: socket.id }));
       console.log('ABOUT TO EMIT');
       io.emit(NEW_ROOM, rooms);
     });
     socket.on(JOIN_ROOM, name => {
       ourRoom = name;
       socket.join(name);
-      store.dispatch(addPlayerToRoom(name, {id: socket.id}));
+      store.dispatch(
+        addPlayerToRoom(name, { id: socket.id, health: INITIAL_HEALTH })
+      );
     });
     socket.on(LEAVE_ROOM, roomName => {
-      console.log("we hit leaveRoom", roomName)
+      console.log('we hit leaveRoom', roomName);
       socket.leave(roomName);
-      store.dispatch(deletePlayerFromRoom(roomName, {id: socket.id}));
+      store.dispatch(deletePlayerFromRoom(roomName, { id: socket.id }));
       ourRoom = '';
     });
 
@@ -54,17 +59,18 @@ module.exports = io => {
 
     // IN-GAME LISTENERS
     socket.on(SHOOT, ({ position, aim }) => {
-      shooterPosition = position;
-      shooterAim = aim;
-
       const players = rooms[ourRoom];
       for (let i = 0; i < players.length; i++) {
         if (players[i].id === socket.id) continue;
-        if (isHit(shooterPosition, players[i].position, shooterAim)) {
+        if (isHit(position, players[i].position, aim)) {
           // emit hit.
-          // store.dispatch(updatePlayer, /*fill in*/)
-          // socket.to(players[i].id).emit(SHOT, /*fill in*/)
-          console.log(socket.id, ' hit player: ', players[i].id); // TODO: DELETE WHEN WE EMIT.
+          store.dispatch(
+            updatePlayer(ourRoom, {
+              id: socket.id,
+              health: players[i].health - 1
+            })
+          );
+          socket.to(players[i].id).emit(SHOT);
         }
       }
     });

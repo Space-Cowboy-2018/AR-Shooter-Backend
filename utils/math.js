@@ -38,7 +38,7 @@ function isHit(shooter, target, direction) {
     y: shooter.y + vectorY,
     z: (target.z - shooter.z) < 0 ? shooter.z - vectorZ : shooter.z + vectorZ
   };
-  console.log('destination', destination);
+
   const buffer = {
     x: Math.abs(target.x - destination.x),
     y: Math.abs(target.y - destination.y),
