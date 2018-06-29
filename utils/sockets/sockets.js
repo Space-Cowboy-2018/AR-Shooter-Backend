@@ -34,7 +34,9 @@ module.exports = io => {
       ourRoom = name;
       socket.join(name);
       store.dispatch(addRoom(name));
-      store.dispatch(addPlayerToRoom(name, { id: socket.id }));
+      store.dispatch(
+        addPlayerToRoom(name, { id: socket.id, health: INITIAL_HEALTH })
+      );
       console.log('ABOUT TO EMIT');
       io.emit(UPDATE_ROOMS, rooms);
     });
@@ -89,7 +91,7 @@ module.exports = io => {
     socket.on('disconnect', function() {
       console.log('i disconnected~', socket.id);
       socket.leave(ourRoom);
-      store.dispatch(deletePlayerFromRoom(ourRoom, {id: socket.id}));
+      store.dispatch(deletePlayerFromRoom(ourRoom, { id: socket.id }));
       io.emit(UPDATE_ROOMS, rooms);
       socket.removeAllListeners('gothit?');
       socket.removeAllListeners('position');
