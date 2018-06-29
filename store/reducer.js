@@ -20,7 +20,7 @@ const reducer = (state = {}, action) => {
       return stateCopy;
     case DELETE_PLAYER_FROM_ROOM:
       stateCopy[action.roomName] = stateCopy[action.roomName].filter(
-        players => players !== action.player
+        player => player.id !== action.player.id
       );
       return stateCopy;
     case UPDATE_PLAYER:
