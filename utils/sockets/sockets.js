@@ -32,19 +32,19 @@ module.exports = io => {
       ourRoom = name;
       socket.join(name);
       store.dispatch(addRoom(name));
-      store.dispatch(addPlayerToRoom(name, socket.id));
+      store.dispatch(addPlayerToRoom(name, {id: socket.id}));
       console.log('ABOUT TO EMIT');
       io.emit(NEW_ROOM, rooms);
     });
     socket.on(JOIN_ROOM, name => {
       ourRoom = name;
       socket.join(name);
-      store.dispatch(addPlayerToRoom(name, socket.id));
+      store.dispatch(addPlayerToRoom(name, {id: socket.id}));
     });
     socket.on(LEAVE_ROOM, roomName => {
       console.log("we hit leaveRoom", roomName)
       socket.leave(roomName);
-      store.dispatch(deletePlayerFromRoom(roomName, socket.id));
+      store.dispatch(deletePlayerFromRoom(roomName, {id: socket.id}));
       ourRoom = '';
     });
 
@@ -59,18 +59,14 @@ module.exports = io => {
       shooterAim = aim;
 
       const players = rooms[ourRoom];
-
       for (let i = 0; i < players.length; i++) {
         if (players[i].id === socket.id) continue;
+        console.log('player', players[i]);
         if (isHit(shooterPosition, players[i].position, shooterAim)) {
           // emit hit.
+          console.log('hit', socket.id);
         }
       }
-    });
-
-    socket.on(IS_HIT, targetPlayer => {
-      const didWeHit = isHit(shooterPosition, targetPlayer, shooterAim);
-      console.log('DID WE HIT?>>>>' + didWeHit); // TODO: REMOVE WHEN WE EMIT THE HIT BACK TO THE PLAYER THAT GOT HIT
     });
 
     socket.on(UPDATE_PLAYER_MOVEMENT, ({ position, aim }) => {
