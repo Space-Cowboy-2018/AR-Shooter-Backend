@@ -1,6 +1,6 @@
 // checks if shooter can hit target.
 // shooter and target are position from camera.getWorldPosition.
-const BUFFER = 0.5;
+const BUFFER = 0.3;
 const BUFFER_VERTICAL = 0.5;
 
 // direction is camera.getWorldDirection of shooter.
