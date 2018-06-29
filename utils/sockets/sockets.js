@@ -15,7 +15,7 @@ const {
   SHOT,
   GAME_STARTED,
   UPDATE_PLAYER_MOVEMENT,
-  NEW_ROOM,
+  UPDATE_ROOMS,
   LEAVE_ROOM
 } = require('./socketEvents');
 
@@ -36,7 +36,7 @@ module.exports = io => {
       store.dispatch(addRoom(name));
       store.dispatch(addPlayerToRoom(name, { id: socket.id }));
       console.log('ABOUT TO EMIT');
-      io.emit(NEW_ROOM, rooms);
+      io.emit(UPDATE_ROOMS, rooms);
     });
     socket.on(JOIN_ROOM, name => {
       ourRoom = name;
@@ -50,6 +50,7 @@ module.exports = io => {
       socket.leave(roomName);
       store.dispatch(deletePlayerFromRoom(roomName, { id: socket.id }));
       ourRoom = '';
+      io.emit(UPDATE_ROOMS, rooms);
     });
 
     // START GAME LISTENER
@@ -87,6 +88,9 @@ module.exports = io => {
     // DISCONNECT
     socket.on('disconnect', function() {
       console.log('i disconnected~', socket.id);
+      socket.leave(ourRoom);
+      store.dispatch(deletePlayerFromRoom(ourRoom, {id: socket.id}));
+      io.emit(UPDATE_ROOMS, rooms);
       socket.removeAllListeners('gothit?');
       socket.removeAllListeners('position');
       socket.removeAllListeners('disconnect');
