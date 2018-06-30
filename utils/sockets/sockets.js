@@ -16,7 +16,8 @@ const {
   GAME_STARTED,
   UPDATE_PLAYER_MOVEMENT,
   UPDATE_ROOMS,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  WINNER
 } = require('./socketEvents');
 
 let rooms = store.getState();
@@ -85,6 +86,10 @@ module.exports = io => {
           socket.emit(YOU_HIT, 'HIT');
           socket.to(players[i].id).emit(SHOT);
         }
+        const isWinner = !players.filter(
+          player => player.id !== socket.id && player.health > 0
+        ).length;
+        if (isWinner) socket.to(socket.id).emit(WINNER);
       }
     });
 
