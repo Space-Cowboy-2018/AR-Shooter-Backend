@@ -34,7 +34,9 @@ module.exports = io => {
       ourRoom = name;
       socket.join(name);
       store.dispatch(addRoom(name));
-      store.dispatch(addPlayerToRoom(name, { id: socket.id }));
+      store.dispatch(
+        addPlayerToRoom(name, { id: socket.id, health: INITIAL_HEALTH })
+      );
       console.log('ABOUT TO EMIT');
       io.emit(UPDATE_ROOMS, rooms);
     });
