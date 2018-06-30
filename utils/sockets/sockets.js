@@ -72,23 +72,25 @@ module.exports = io => {
     // IN-GAME LISTENERS
     socket.on(SHOOT, ({ position, aim }) => {
       const players = rooms[ourRoom];
-      for (let i = 0; i < players.length; i++) {
-        if (players[i].id === socket.id) continue;
-        if (isHit(position, players[i].position, aim)) {
-          // emit hit.
-          store.dispatch(
-            updatePlayer(ourRoom, {
-              id: players[i].id,
-              health: players[i].health - 1
-            })
-          );
-          socket.to(players[i].id).emit(SHOT);
+      if (players) {
+        for (let i = 0; i < players.length; i++) {
+          if (players[i].id === socket.id) continue;
+          if (isHit(position, players[i].position, aim)) {
+            // emit hit.
+            store.dispatch(
+              updatePlayer(ourRoom, {
+                id: players[i].id,
+                health: players[i].health - 1
+              })
+            );
+            socket.to(players[i].id).emit(SHOT);
+          }
         }
+        const isWinner = !players.filter(
+          player => player.id !== socket.id && player.health > 0
+        ).length;
+        if (isWinner) socket.to(socket.id).emit(WINNER);
       }
-      const isWinner = !players.filter(
-        player => player.id !== socket.id && player.health > 0
-      ).length;
-      if (isWinner) socket.to(socket.id).emit(WINNER);
     });
 
     socket.on(UPDATE_PLAYER_MOVEMENT, ({ position, aim }) => {

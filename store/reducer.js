@@ -29,15 +29,16 @@ const reducer = (state = {}, action) => {
       } else if (
         stateCopy[action.roomName] &&
         stateCopy[action.roomName].length - 1 <= 0
-      )
-        delete stateCopy[action.roomName];
+      ) {delete stateCopy[action.roomName];}
       return stateCopy;
     case UPDATE_PLAYER:
+      if (stateCopy[action.roomName]){
       playersArr = stateCopy[action.roomName].slice();
       index = playersArr.findIndex(player => player.id === action.player.id);
       playersArr[index] = {...playersArr[index], ...action.player} // ISAIAS WROTE THIS
       stateCopy[action.roomName] = playersArr;
       return stateCopy;
+      }
     default:
       return state;
   }
