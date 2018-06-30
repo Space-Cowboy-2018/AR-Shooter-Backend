@@ -30,21 +30,29 @@ module.exports = io => {
     let ourRoom = '';
     console.log('A new client has connected!', socket.id);
     // ROOM LISTENERS
-    socket.on(CREATE_ROOM, name => {
-      ourRoom = name;
-      socket.join(name);
-      store.dispatch(addRoom(name));
+    socket.on(CREATE_ROOM, (roomName, playerName) => {
+      ourRoom = roomName;
+      socket.join(roomName);
+      store.dispatch(addRoom(roomName));
       store.dispatch(
-        addPlayerToRoom(name, { id: socket.id, health: INITIAL_HEALTH })
+        addPlayerToRoom(roomName, {
+          id: socket.id,
+          health: INITIAL_HEALTH,
+          name: playerName
+        })
       );
       console.log('ABOUT TO EMIT');
       io.emit(UPDATE_ROOMS, rooms);
     });
-    socket.on(JOIN_ROOM, name => {
-      ourRoom = name;
-      socket.join(name);
+    socket.on(JOIN_ROOM, (roomName, playerName) => {
+      ourRoom = roomName;
+      socket.join(roomName);
       store.dispatch(
-        addPlayerToRoom(name, { id: socket.id, health: INITIAL_HEALTH })
+        addPlayerToRoom(roomName, {
+          id: socket.id,
+          health: INITIAL_HEALTH,
+          name: playerName
+        })
       );
     });
     socket.on(LEAVE_ROOM, roomName => {
@@ -69,7 +77,7 @@ module.exports = io => {
           // emit hit.
           store.dispatch(
             updatePlayer(ourRoom, {
-              id: socket.id,
+              id: players[i].id,
               health: players[i].health - 1
             })
           );
