@@ -21,6 +21,7 @@ const {
 } = require('./socketEvents');
 
 let rooms = store.getState();
+const YOU_HIT = 'YOU_HIT';
 
 const unsubscribe = store.subscribe(() => {
   rooms = store.getState();
@@ -72,19 +73,18 @@ module.exports = io => {
     // IN-GAME LISTENERS
     socket.on(SHOOT, ({ position, aim }) => {
       const players = rooms[ourRoom];
-      if (players) {
-        for (let i = 0; i < players.length; i++) {
-          if (players[i].id === socket.id) continue;
-          if (isHit(position, players[i].position, aim)) {
-            // emit hit.
-            store.dispatch(
-              updatePlayer(ourRoom, {
-                id: players[i].id,
-                health: players[i].health - 1
-              })
-            );
-            socket.to(players[i].id).emit(SHOT);
-          }
+      for (let i = 0; i < players.length; i++) {
+        if (players[i].id === socket.id) continue;
+        if (isHit(position, players[i].position, aim)) {
+          // emit hit.
+          store.dispatch(
+            updatePlayer(ourRoom, {
+              id: players[i].id,
+              health: players[i].health - 1
+            })
+          );
+          socket.emit(YOU_HIT, 'HIT');
+          socket.to(players[i].id).emit(SHOT);
         }
         const isWinner = !players.filter(
           player => player.id !== socket.id && player.health > 0
