@@ -1,6 +1,6 @@
 // checks if shooter can hit target.
 // shooter and target are position from camera.getWorldPosition.
-const BUFFER = 0.3;
+const BUFFER = 0.2;
 const BUFFER_VERTICAL = 0.5;
 
 // direction is camera.getWorldDirection of shooter.
@@ -36,23 +36,9 @@ function isHit(shooter, target, direction) {
   const destination = {
     x: shooter.x + vectorX,
     y: shooter.y + vectorY,
-    z: target.z - shooter.z < 0 ? shooter.z - vectorZ : shooter.z + vectorZ
+    z: shooter.z + vectorZ
   };
 
-  // const dist = Math.sqrt(
-  //   Math.pow(target.x - shooter.x, 2) +
-  //   Math.pow(target.y - shooter.y, 2) +
-  //   Math.pow(target.z - shooter.z, 2)
-  // );
-
-  // const destAlt = {
-  //   x: shooter.x + dist + direction.x,
-  //   y: shooter.y + dist + direction.y,
-  //   z: shooter.z + dist + direction.z,
-  // }
-
-  // console.log('DESTINATION', destination);
-  // console.log('altDESTINATION', destAlt);
   const buffer = {
     x: Math.abs(target.x - destination.x),
     y: Math.abs(target.y - destination.y),
