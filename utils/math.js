@@ -45,7 +45,7 @@ function isHit(shooter, target, direction) {
     z: Math.abs(target.z - destination.z)
   };
   // test if destination is close enough to target.
-  return buffer.x < BUFFER && buffer.y < BUFFER_VERTICAL && buffer.z < BUFFER;
+  return buffer.x < BUFFER && buffer.z < BUFFER;
 }
 
 module.exports = { isHit };
