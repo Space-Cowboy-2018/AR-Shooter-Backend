@@ -1,6 +1,6 @@
 // checks if shooter can hit target.
 // shooter and target are position from camera.getWorldPosition.
-const BUFFER = 0.3;
+const BUFFER = 0.2;
 const BUFFER_VERTICAL = 0.5;
 
 // direction is camera.getWorldDirection of shooter.
@@ -36,7 +36,7 @@ function isHit(shooter, target, direction) {
   const destination = {
     x: shooter.x + vectorX,
     y: shooter.y + vectorY,
-    z: (target.z - shooter.z) < 0 ? shooter.z - vectorZ : shooter.z + vectorZ
+    z: shooter.z + vectorZ
   };
 
   const buffer = {
@@ -45,7 +45,7 @@ function isHit(shooter, target, direction) {
     z: Math.abs(target.z - destination.z)
   };
   // test if destination is close enough to target.
-  return buffer.x < BUFFER && buffer.y < BUFFER_VERTICAL && buffer.z < BUFFER;
+  return buffer.x < BUFFER && buffer.z < BUFFER;
 }
 
 module.exports = { isHit };
