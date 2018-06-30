@@ -20,6 +20,7 @@ const {
 } = require('./socketEvents');
 
 let rooms = store.getState();
+const YOU_HIT = 'YOU_HIT';
 
 const unsubscribe = store.subscribe(() => {
   rooms = store.getState();
@@ -81,6 +82,7 @@ module.exports = io => {
               health: players[i].health - 1
             })
           );
+          socket.emit(YOU_HIT, 'HIT');
           socket.to(players[i].id).emit(SHOT);
         }
       }
