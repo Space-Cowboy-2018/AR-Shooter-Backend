@@ -77,7 +77,7 @@ module.exports = io => {
           // emit hit.
           store.dispatch(
             updatePlayer(ourRoom, {
-              id: socket.id,
+              id: players[i].id,
               health: players[i].health - 1
             })
           );
