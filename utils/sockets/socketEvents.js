@@ -8,6 +8,7 @@ const LEAVE_ROOM = 'LEAVE_ROOM';
 //EMITS
 const GAME_STARTED = 'GAME_STARTED';
 const SHOT = 'SHOT';
+const WINNER = 'WINNER';
 const UPDATE_ROOMS = 'UPDATE_ROOMS';
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
   GAME_STARTED,
   UPDATE_PLAYER_MOVEMENT,
   UPDATE_ROOMS,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  WINNER
 };
