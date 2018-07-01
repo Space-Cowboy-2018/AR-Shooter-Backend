@@ -40,7 +40,8 @@ module.exports = io => {
         addPlayerToRoom(roomName, {
           id: socket.id,
           health: INITIAL_HEALTH,
-          name: playerName
+          name: playerName,
+          inSession: false
         })
       );
       console.log('ABOUT TO EMIT');
@@ -53,7 +54,8 @@ module.exports = io => {
         addPlayerToRoom(roomName, {
           id: socket.id,
           health: INITIAL_HEALTH,
-          name: playerName
+          name: playerName,
+          inSession: false
         })
       );
     });
@@ -67,6 +69,14 @@ module.exports = io => {
 
     // START GAME LISTENER
     socket.on(START_GAME, () => {
+      const players = rooms[ourRoom];
+      for (let i = 0; i < players.length; i++) {
+        store.dispatch(updatePlayer(ourRoom, {
+          id: players[i].id,
+          health: INITIAL_HEALTH,
+          inSession: true
+        }))
+      }
       io.in(ourRoom).emit(GAME_STARTED);
     });
 
@@ -80,16 +90,23 @@ module.exports = io => {
           store.dispatch(
             updatePlayer(ourRoom, {
               id: players[i].id,
-              health: players[i].health - 1
+              health: players[i].health - 1,
+              inSession: players[i].health > 1 ? true : false
             })
           );
           socket.emit(YOU_HIT, 'HIT');
           socket.to(players[i].id).emit(SHOT);
         }
         const isWinner = !players.filter(
-          player => player.id !== socket.id && player.health > 0
+          player => player.id !== socket.id && player.health > 1
         ).length;
-        if (isWinner) socket.to(socket.id).emit(WINNER);
+        if (isWinner) {
+          store.dispatch(updatePlayer(ourRoom, {
+            id: socket.id,
+            inSession: false
+          }))
+          socket.to(socket.id).emit(WINNER);
+        }
       }
     });
 
