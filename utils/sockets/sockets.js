@@ -44,7 +44,6 @@ module.exports = io => {
           inSession: false
         })
       );
-      console.log('ABOUT TO EMIT');
       io.emit(UPDATE_ROOMS, rooms);
     });
     socket.on(JOIN_ROOM, (roomName, playerName) => {
@@ -104,17 +103,16 @@ module.exports = io => {
           socket.to(players[i].id).emit(SHOT);
         }
       }
-      const isWinner = !players.filter(
-        player => player.id !== socket.id && player.health > 1
-      ).length;
-      if (isWinner) {
+      const isWinner = players.filter(player => player.health > 0);
+      if (isWinner.length === 1) {
+        let id = isWinner[0].id;
+        socket.to(id).emit(WINNER);
         store.dispatch(
           updatePlayer(ourRoom, {
             id: socket.id,
             inSession: false
           })
         );
-        socket.to(socket.id).emit(WINNER);
       }
 
       io.emit(UPDATE_ROOMS, rooms);
