@@ -60,6 +60,7 @@ module.exports = io => {
       io.emit(UPDATE_ROOMS, rooms);
     });
     socket.on(LEAVE_ROOM, roomName => {
+      //CG: Console.log please delete.
       console.log('we hit leaveRoom', roomName);
       socket.leave(roomName);
       store.dispatch(deletePlayerFromRoom(roomName, { id: socket.id }));
@@ -69,6 +70,7 @@ module.exports = io => {
 
     // START GAME LISTENER
     socket.on(START_GAME, () => {
+      //CG: MAybe validate that we have at least two people in a room.
       const players = rooms[ourRoom];
       if (!players) return;
       for (let i = 0; i < players.length; i++) {
@@ -88,6 +90,7 @@ module.exports = io => {
     socket.on(SHOOT, ({ position, aim }) => {
       const players = rooms[ourRoom];
       if (!players) return;
+      //CG: I would've preferred if game logic wasn't mingled in socket code. 
       for (let i = 0; i < players.length; i++) {
         if (players[i].id === socket.id) continue;
         if (isHit(position, players[i].position, aim)) {
@@ -103,6 +106,7 @@ module.exports = io => {
           socket.to(players[i].id).emit(SHOT);
         }
       }
+      //CG: Maybe check out if two players can kill each other. IF not maybe just use a standard loop here with short-circuiting. Get through the logic as quick as possible
       const alivePlayers = rooms[ourRoom].filter(
         player => player.health > 0
       );
@@ -115,7 +119,7 @@ module.exports = io => {
           })
         );
       }
-
+      //CG: Seems weird to do this here. On every shot everyone needs to know about all rooms? 
       io.emit(UPDATE_ROOMS, rooms);
     });
 
@@ -130,10 +134,12 @@ module.exports = io => {
 
     // DISCONNECT
     socket.on('disconnect', function() {
+      //CG: remove console.logs
       console.log('i disconnected~', socket.id);
       socket.leave(ourRoom);
       store.dispatch(deletePlayerFromRoom(ourRoom, { id: socket.id }));
       io.emit(UPDATE_ROOMS, rooms);
+      //CG: Remove all the unused events
       socket.removeAllListeners('gothit?');
       socket.removeAllListeners('position');
       socket.removeAllListeners('disconnect');
