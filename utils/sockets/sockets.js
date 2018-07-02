@@ -58,6 +58,7 @@ module.exports = io => {
           inSession: false
         })
       );
+      io.emit(UPDATE_ROOMS, rooms);
     });
     socket.on(LEAVE_ROOM, roomName => {
       console.log('we hit leaveRoom', roomName);
@@ -70,19 +71,24 @@ module.exports = io => {
     // START GAME LISTENER
     socket.on(START_GAME, () => {
       const players = rooms[ourRoom];
+      if (!players) return;
       for (let i = 0; i < players.length; i++) {
-        store.dispatch(updatePlayer(ourRoom, {
-          id: players[i].id,
-          health: INITIAL_HEALTH,
-          inSession: true
-        }))
+        store.dispatch(
+          updatePlayer(ourRoom, {
+            id: players[i].id,
+            health: INITIAL_HEALTH,
+            inSession: true
+          })
+        );
       }
       io.in(ourRoom).emit(GAME_STARTED);
+      io.emit(UPDATE_ROOMS, rooms);
     });
 
     // IN-GAME LISTENERS
     socket.on(SHOOT, ({ position, aim }) => {
       const players = rooms[ourRoom];
+      if (!players) return;
       for (let i = 0; i < players.length; i++) {
         if (players[i].id === socket.id) continue;
         if (isHit(position, players[i].position, aim)) {
@@ -91,23 +97,27 @@ module.exports = io => {
             updatePlayer(ourRoom, {
               id: players[i].id,
               health: players[i].health - 1,
-              inSession: players[i].health > 1 ? true : false
+              inSession: players[i].health > 1
             })
           );
           socket.emit(YOU_HIT, 'HIT');
           socket.to(players[i].id).emit(SHOT);
         }
-        const isWinner = !players.filter(
-          player => player.id !== socket.id && player.health > 1
-        ).length;
-        if (isWinner) {
-          store.dispatch(updatePlayer(ourRoom, {
+      }
+      const isWinner = !players.filter(
+        player => player.id !== socket.id && player.health > 1
+      ).length;
+      if (isWinner) {
+        store.dispatch(
+          updatePlayer(ourRoom, {
             id: socket.id,
             inSession: false
-          }))
-          socket.to(socket.id).emit(WINNER);
-        }
+          })
+        );
+        socket.to(socket.id).emit(WINNER);
       }
+
+      io.emit(UPDATE_ROOMS, rooms);
     });
 
     socket.on(UPDATE_PLAYER_MOVEMENT, ({ position, aim }) => {
