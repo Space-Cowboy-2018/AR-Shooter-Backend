@@ -21,7 +21,7 @@ const reducer = (state = {}, action) => {
     case DELETE_PLAYER_FROM_ROOM:
       if (
         stateCopy[action.roomName] &&
-        stateCopy[action.roomName].length - 1 >= 0
+        stateCopy[action.roomName].length - 1 > 0
       ) {
         stateCopy[action.roomName] = stateCopy[action.roomName].filter(
           player => player.id !== action.player.id
