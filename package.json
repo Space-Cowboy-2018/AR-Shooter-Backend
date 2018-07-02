@@ -1,7 +1,8 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start-dev": "nodemon server.js",
+    "start": "node server.js",
     "test": "mocha ./utils/*.spec.js"
   },
   "private": true,
