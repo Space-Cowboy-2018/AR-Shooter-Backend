@@ -37,6 +37,14 @@ describe('isHit function', () => {
       }
       expect(isHit(shooter, target, aim)).to.equal(true);
     });
+
+    it('misses target', () => {
+      const shooter = { x: 0, y: 0, z: 0 };
+      const target = { x: 0, y: 0, z: 1 };
+      const aim = { x: 0, y: 0, z: -1 };
+
+      expect(isHit(shooter, target, aim)).to.equal(false);
+    });
   });
 
   describe('shooter is not at origin', () => {
@@ -64,6 +72,13 @@ describe('isHit function', () => {
       const aim = { x: 0, y: 0, z: 1 };
 
       expect(isHit(shooter, target, aim)).to.equal(true);
+    });
+
+    it('misses target', () => {
+      const target = { x: 0, y: 0, z: 1 };
+      const aim = { x: 2, y: 0, z: 1 };
+
+      expect(isHit(shooter, target, aim)).to.equal(false);
     });
   });
 });
