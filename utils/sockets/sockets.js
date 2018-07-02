@@ -103,9 +103,10 @@ module.exports = io => {
           socket.to(players[i].id).emit(SHOT);
         }
       }
-      const isWinner = players.filter(player => player.health > 0);
-      if (isWinner.length === 1) {
-        let id = isWinner[0].id;
+      const alivePlayers = rooms[ourRoom].filter(
+        player => player.health > 0
+      );
+      if (alivePlayers.length === 1 && alivePlayers[0].id === socket.id) {
         socket.emit(WINNER);
         store.dispatch(
           updatePlayer(ourRoom, {
