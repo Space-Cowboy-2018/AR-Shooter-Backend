@@ -17,9 +17,11 @@ const {
   UPDATE_PLAYER_MOVEMENT,
   UPDATE_ROOMS,
   LEAVE_ROOM,
-  WINNER
+  WINNER,
+  HEART_PICKED_UP,
+  ERASE_HEART
 } = require('./socketEvents');
-
+const tooMuchHealth = require('../tooMuchHealth.js');
 let rooms = store.getState();
 const YOU_HIT = 'YOU_HIT';
 
@@ -114,6 +116,12 @@ module.exports = io => {
         io.emit(UPDATE_ROOMS, rooms);
       }
     });
+
+    socket.on(HEART_PICKED_UP, () => {
+      const ourself = rooms[ourRoom].find(player => player.id === socket.id);
+      store.dispatch(updatePlayer(ourRoom, {id: socket.id, health: tooMuchHealth(ourself.health)}));
+      io.in(ourRoom).emit(ERASE_HEART);
+    })
 
     socket.on(UPDATE_PLAYER_MOVEMENT, ({ position, aim }) => {
       const player = {
