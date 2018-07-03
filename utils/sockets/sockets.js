@@ -60,7 +60,6 @@ module.exports = io => {
       io.emit(UPDATE_ROOMS, rooms);
     });
     socket.on(LEAVE_ROOM, roomName => {
-      console.log('we hit leaveRoom', roomName);
       socket.leave(roomName);
       store.dispatch(deletePlayerFromRoom(roomName, { id: socket.id }));
       ourRoom = '';
@@ -89,7 +88,7 @@ module.exports = io => {
       const players = rooms[ourRoom];
       if (!players) return;
       for (let i = 0; i < players.length; i++) {
-        if (players[i].id === socket.id) continue;
+        if (players[i].id === socket.id || !players[i].inSession) continue;
         if (isHit(position, players[i].position, aim)) {
           // emit hit.
           store.dispatch(
@@ -103,9 +102,7 @@ module.exports = io => {
           socket.to(players[i].id).emit(SHOT);
         }
       }
-      const alivePlayers = rooms[ourRoom].filter(
-        player => player.health > 0
-      );
+      const alivePlayers = rooms[ourRoom].filter(player => player.health > 0);
       if (alivePlayers.length === 1 && alivePlayers[0].id === socket.id) {
         socket.emit(WINNER);
         store.dispatch(
@@ -114,9 +111,8 @@ module.exports = io => {
             inSession: false
           })
         );
+        io.emit(UPDATE_ROOMS, rooms);
       }
-
-      io.emit(UPDATE_ROOMS, rooms);
     });
 
     socket.on(UPDATE_PLAYER_MOVEMENT, ({ position, aim }) => {
