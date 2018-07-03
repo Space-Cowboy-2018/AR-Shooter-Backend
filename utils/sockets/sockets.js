@@ -19,7 +19,8 @@ const {
   LEAVE_ROOM,
   WINNER,
   HEART_PICKED_UP,
-  ERASE_HEART
+  ERASE_HEART,
+  LASER_SHOT
 } = require('./socketEvents');
 const tooMuchHealth = require('../tooMuchHealth.js');
 let rooms = store.getState();
@@ -87,6 +88,7 @@ module.exports = io => {
 
     // IN-GAME LISTENERS
     socket.on(SHOOT, ({ position, aim }) => {
+      socket.to(ourRoom).emit(LASER_SHOT, {position, aim})
       const players = rooms[ourRoom];
       if (!players) return;
       for (let i = 0; i < players.length; i++) {

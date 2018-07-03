@@ -12,6 +12,7 @@ const SHOT = 'SHOT';
 const WINNER = 'WINNER';
 const UPDATE_ROOMS = 'UPDATE_ROOMS';
 const ERASE_HEART = 'ERASE_HEART';
+const LASER_SHOT = "LASER_SHOT"
 
 module.exports = {
   CREATE_ROOM,
@@ -25,5 +26,6 @@ module.exports = {
   LEAVE_ROOM,
   WINNER,
   HEART_PICKED_UP,
-  ERASE_HEART
+  ERASE_HEART,
+  LASER_SHOT
 };
