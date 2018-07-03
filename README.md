@@ -3,8 +3,8 @@
 
 ## AR Lasar Tag
 
-
-![](https://i.imgur.com/b3pL8Xp.gifv)
+https://i.imgur.com/b3pL8Xp.gifv
+![](https://imgur.com/b3pL8Xp)
 ![](https://i.imgur.com/b3pL8Xp.gifv)
 
 ### Gameplay Mechanics
