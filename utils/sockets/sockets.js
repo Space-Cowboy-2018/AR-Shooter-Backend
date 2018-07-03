@@ -140,9 +140,6 @@ module.exports = io => {
       socket.leave(ourRoom);
       store.dispatch(deletePlayerFromRoom(ourRoom, { id: socket.id }));
       io.emit(UPDATE_ROOMS, rooms);
-      socket.removeAllListeners('gothit?');
-      socket.removeAllListeners('position');
-      socket.removeAllListeners('disconnect');
     });
   });
 };
