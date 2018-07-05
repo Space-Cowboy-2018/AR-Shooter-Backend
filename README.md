@@ -3,7 +3,7 @@
 
 ## AR Laser Tag
 
-Solarized dark             |  Solarized Ocean
+Player 1             |  Player 2
 :-------------------------:|:-------------------------:
 <img src="https://github.com/Space-Cowboy-2018/proof-of-concept/blob/master/public/preview1.gif" width="150">  |  <img src="https://github.com/Space-Cowboy-2018/proof-of-concept/blob/master/public/preview3.gif" width="150">
 
