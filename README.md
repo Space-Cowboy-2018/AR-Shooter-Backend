@@ -3,11 +3,9 @@
 
 ## AR Laser Tag
 
-https://i.imgur.com/b3pL8Xp.gifv
 
-![](https://media.giphy.com/media/2etH5lqW0hI3s2MERQ/giphy.gif)
-
-![](https://i.imgur.com/b3pL8Xp.gifv)
+![alt Text](https://media.giphy.com/media/2etH5lqW0hI3s2MERQ/giphy.gif)
+![](https://i.imgur.com/b3pL8Xp.gif)
 
 ### Gameplay Mechanics
 Space Cowboy is designed to be an Augmented Reality mutliply player laser-tag. Players can create seperate rooms and begin a game when all players are ready. During the game play phase each player starts with 100 HP. Everytime you tag your opponent they lose 10HP, when you health goes to 0 you lose. You can obtain more health by grabbing an in game heart. When all your opponents are out you win.
