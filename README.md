@@ -4,7 +4,7 @@
 ## AR Lasar Tag
 
 https://i.imgur.com/b3pL8Xp.gifv
-![](https://imgur.com/b3pL8Xp)
+![](https://media.giphy.com/media/2etH5lqW0hI3s2MERQ/giphy.gif)
 ![](https://i.imgur.com/b3pL8Xp.gifv)
 
 ### Gameplay Mechanics
