@@ -3,7 +3,7 @@
 
 ## AR Laser Tag
 
-Player 1             |  Player 2
+Player 1  (Iphone X)           |  Player 2 (Iphone 6s)
 :-------------------------:|:-------------------------:
 <img src="https://github.com/Space-Cowboy-2018/proof-of-concept/blob/master/public/preview4.gif" width="150">  |  <img src="https://github.com/Space-Cowboy-2018/proof-of-concept/blob/master/public/preview5.gif" width="150">
 
@@ -22,6 +22,7 @@ Backend : [Node.js](https://nodejs.org/en/), [Socket.io](https://socket.io/), [R
 Testing : [Mocha](https://mochajs.org/)
 
 ### How to Play
+
 
 -Create Name
 
