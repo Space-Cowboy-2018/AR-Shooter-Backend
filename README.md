@@ -1,10 +1,12 @@
 # Space Cowboy
 
 
-## AR Lasar Tag
+## AR Laser Tag
 
 https://i.imgur.com/b3pL8Xp.gifv
+
 ![](https://media.giphy.com/media/2etH5lqW0hI3s2MERQ/giphy.gif)
+
 ![](https://i.imgur.com/b3pL8Xp.gifv)
 
 ### Gameplay Mechanics
@@ -12,20 +14,25 @@ Space Cowboy is designed to be an Augmented Reality mutliply player laser-tag. P
 
 ### Architecture
 Space Cowboy
-Frontend : [React-Native](https://facebook.github.io/react-native/),[Socket.io](https://socket.io/),[Three.js](https://threejs.org/),[Expo-AR](https://expo.io/)
+Frontend : [React-Native](https://facebook.github.io/react-native/),[ Socket.io](https://socket.io/), [Three.js](https://threejs.org/), [Expo-AR](https://expo.io/)
 
-Backend : [Node.js](https://nodejs.org/en/),[Socket.io](https://socket.io/),[Redux](https://redux.js.org/),[Express.js](https://expressjs.com/)
+Backend : [Node.js](https://nodejs.org/en/), [Socket.io](https://socket.io/), [Redux](https://redux.js.org/), [Express.js](https://expressjs.com/)
 
 Testing : [Mocha](https://mochajs.org/)
 
 ### How to Play
--Create Name
--Create Room
--Start Game by lining up all the phones together to sync location
--Go pew pew!!!
--Grab the heart to get more HP!
--Be the last one standing
 
+-Create Name
+
+-Create Room
+
+-Start Game by lining up all the phones together to sync location
+
+-Go pew pew!!!
+
+-Grab the heart to get more HP!
+
+-Be the last one standing
 
 
 
